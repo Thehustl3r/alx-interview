@@ -6,15 +6,13 @@
 
 def canUnlockAll(boxes):
     """This function find if all boxes is unlockable"""
-    n = len(boxes)
-    key = [0]
-    visited_box = [0]
-    for i in range(n-1):
-        if i in key:
-            for value in boxes[i]:
-                for val in boxes[value]:
-                    key.append(val)
-                key.append(value)
-        else:
-            return False
-    return True
+    open_boxes = set([0])
+    key_found = set(boxes[0])
+
+    while key_found:
+        box_to_be_opened = key_found.pop()
+        if 0 <= box_to_be_opened < len(boxes) and box_to_be_opened not in open_boxes:
+            open_boxes.add(box_to_be_opened)
+            key_found.update(boxes[box_to_be_opened])
+
+    return len(open_boxes) == len(boxes)
