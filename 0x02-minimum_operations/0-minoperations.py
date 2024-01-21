@@ -22,7 +22,6 @@ def multiplesOfNum(n):
 
 def minOperations(n) -> int:
     """function that return minimal operation to create n times of H"""
-    H = 1
     multiples = multiplesOfNum(n)
     num: int = 0
     while (len(multiples)):
