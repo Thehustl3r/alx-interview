@@ -1,5 +1,7 @@
-#!/usr/bin/pyhton3
-"""0-minioperation"""
+#!/usr/bin/python3
+"""
+0-minioperation
+"""
 
 
 from queue import Empty
