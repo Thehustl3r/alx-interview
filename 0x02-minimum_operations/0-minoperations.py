@@ -8,6 +8,7 @@ from queue import Empty
 
 
 def multiplesOfNum(n):
+    """find multiples of number and store it in array"""
     mutlipes = []
     multi = 2
     while (n > 1):
