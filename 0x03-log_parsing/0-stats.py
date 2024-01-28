@@ -7,7 +7,7 @@ import signal
 def signal_handler(sig, frame):
     """handle system interupt"""
     print_statics()
-    sys.exit()
+    sys.exit(0)
 
 
 def print_statics():
@@ -15,13 +15,16 @@ def print_statics():
     print(f"File size: {total_size}")
     # for data in data_list:
     #     print(data)
-    for code in sorted(status_code):
+    for code in sorted(status_code.keys()):
         print(f"{code}: {status_code[code]}")
 
 
 line_count = 0
 status_code = {}
 total_size = 0
+# signal.signal(signal.SIGINT, lambda sig, frame: asyncio
+# .create_task(signal_handler(sig, frame)))
+
 signal.signal(signal.SIGINT, signal_handler)
 
 try:
@@ -45,4 +48,5 @@ try:
         line_count += 1
 
 except KeyboardInterrupt:
+    # asyncio.run(signal_handler(signal.SIGINT, None))
     signal_handler(signal.SIGINT, None)
