@@ -1,54 +1,48 @@
 #!/usr/bin/python3
 """0-stas"""
 import sys
-import re
+import signal
 
 
-count = 0
-data = {'ip': '',
-        'date': '',
-        'request': '',
-        'status': 0,
-        'size': 0}
-data_list = []
-status_arr = ['200', '301', '400', '401', '403', '404', '405', '500']
+def signal_handler(sig, frame):
+    """handle system interupt"""
+    print_statics()
+    sys.exit()
+
+
+def print_statics():
+    """print statics"""
+    print(f"File size: {total_size}")
+    # for data in data_list:
+    #     print(data)
+    for code in sorted(status_code):
+        print(f"{code}: {status_code[code]}")
+
+
+line_count = 0
+status_code = {}
+total_size = 0
+signal.signal(signal.SIGINT, signal_handler)
+
 try:
     for line in sys.stdin:
         line.strip()
-        if count == 10:
-            sorted_list = sorted(data_list, key=lambda x: x['status'])
-            total_size = sum(item['size'] for item in sorted_list)
-            print(f"File size: {total_size}")
-            # for data in data_list:
-            #     print(data)
-            for stat in status_arr:
-                count = sum(1 for item in data_list if item['status'] == stat)
-                if count != 0:
-                    print(f"{stat}: {count}")
-            data_list = []
-            count = 0
+        if line_count == 10:
+            print_statics()
+            line_count = 0
 
-        # print(line)
-        log = line.split()
-        # print(len(log))
+        parts = line.split()
+        # print(len(parts))
 
-        if len(log) == 9:
-            data = {
-                'ip': log[0],
-                'date': log[2],
-                'request': log[3] + log[4],
-                'status': log[7],
-                'size': int(log[8]),
-            }
-            data_list.append(data)
-        count += 1
+        if len(parts) != 9:
+            continue
+        status = int(parts[7])
+        # print(status)
+        if status not in [200, 301, 400, 401, 403, 404, 405, 500]:
+            continue
+        status_code[status] = status_code.get(status, 0) + 1
+        total_size += int(parts[8])
+        line_count += 1
 
 except KeyboardInterrupt:
-    sorted_list = sorted(data_list, key=lambda x: x['status'])
-    total_size = sum(item['size'] for item in sorted_list)
-    print(f"File size: {total_size}")
-    for stat in status_arr:
-        count = sum(1 for item in data_list if item['status'] == stat)
-        if count != 0:
-            print(f"{stat}: {count}")
-    sys.exit()
+    signal_handler(signal.SIGINT, None)
