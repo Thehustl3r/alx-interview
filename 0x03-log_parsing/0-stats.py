@@ -2,6 +2,7 @@
 """0-stas"""
 import sys
 import signal
+import re
 
 
 def signal_handler(sig, frame):
@@ -29,11 +30,17 @@ signal.signal(signal.SIGINT, signal_handler)
 try:
     for line in sys.stdin:
         line.strip()
-        parts = line.split()
-        # print(len(parts))
+        parts = re.split(r'\s*-\s*|\s+', line)
+        parts = list(filter(None, parts))
+        print(len(parts))
 
-        if len(parts) != 9 and len(parts) > 2 and not parts[-2].isdigit():
+        if len(parts) < 8:
             continue
+
+        if len(parts) != 10:
+            continue
+
+        total_size += int(parts[-1])
 
         try:
             status = int(parts[-2])
@@ -43,7 +50,6 @@ try:
             continue
         status_code[status] = status_code.get(status, 0) + 1
 
-        total_size += int(parts[-1])
         line_count += 1
         # print(line_count)
         if line_count == 10:
