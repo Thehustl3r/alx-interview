@@ -30,9 +30,10 @@ signal.signal(signal.SIGINT, signal_handler)
 try:
     for line in sys.stdin:
         line.strip()
+        # parts = line.split()
         parts = re.split(r'\s*-\s*|\s+', line)
         parts = list(filter(None, parts))
-        print(len(parts))
+        # print(len(parts))
 
         if len(parts) < 8:
             continue
@@ -52,7 +53,7 @@ try:
 
         line_count += 1
         # print(line_count)
-        if line_count == 10:
+        if line_count == 9:
             print_statistics()
             line_count = 0
 
