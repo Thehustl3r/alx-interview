@@ -13,6 +13,8 @@ def signal_handler(sig, frame):
 def print_statistics():
     """print statics"""
     print(f"File size: {total_size}")
+    print(f"File size: {total_size}")
+
     for code in sorted(status_code.keys()):
         print(f"{code}: {status_code[code]}")
 
@@ -41,9 +43,12 @@ try:
 
         total_size += int(parts[8])
         line_count += 1
-        if line_count == 10 or line.startswith("]"):
+        if line_count == 10:
             print_statistics()
             line_count = 0
+
+    if line_count !=10:
+        print_statistics()
 
 except KeyboardInterrupt:
     # asyncio.run(signal_handler(signal.SIGINT, None))
