@@ -6,15 +6,13 @@ import signal
 
 def signal_handler(sig, frame):
     """handle system interupt"""
-    print_statics()
+    print_statistics()
     sys.exit(0)
 
 
-def print_statics():
+def print_statistics():
     """print statics"""
     print(f"File size: {total_size}")
-    # for data in data_list:
-    #     print(data)
     for code in sorted(status_code.keys()):
         print(f"{code}: {status_code[code]}")
 
@@ -30,22 +28,22 @@ signal.signal(signal.SIGINT, signal_handler)
 try:
     for line in sys.stdin:
         line.strip()
-        if line_count == 10:
-            print_statics()
-            line_count = 0
-
         parts = line.split()
         # print(len(parts))
 
         if len(parts) != 9:
             continue
+
         status = int(parts[7])
-        # print(status)
         if status not in [200, 301, 400, 401, 403, 404, 405, 500]:
             continue
         status_code[status] = status_code.get(status, 0) + 1
+
         total_size += int(parts[8])
         line_count += 1
+        if line_count == 10 or line.startswith("]"):
+            print_statistics()
+            line_count = 0
 
 except KeyboardInterrupt:
     # asyncio.run(signal_handler(signal.SIGINT, None))
