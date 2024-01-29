@@ -38,8 +38,6 @@ try:
         if len(parts) != 10:
             continue
 
-        total_size += int(parts[-1])
-
         try:
             status = int(parts[-2])
         except:
@@ -47,6 +45,8 @@ try:
         if status not in [200, 301, 400, 401, 403, 404, 405, 500]:
             continue
         status_code[status] = status_code.get(status, 0) + 1
+
+        total_size += int(parts[-1])
 
         # print(line_count)
         if line_count == 9:
