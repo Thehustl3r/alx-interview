@@ -35,7 +35,10 @@ try:
         if len(parts) != 9:
             continue
 
-        status = int(parts[7])
+        try:
+            status = int(parts[7])
+        except:
+            continue
         if status not in [200, 301, 400, 401, 403, 404, 405, 500]:
             continue
         status_code[status] = status_code.get(status, 0) + 1
