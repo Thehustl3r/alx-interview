@@ -48,11 +48,11 @@ try:
             continue
         status_code[status] = status_code.get(status, 0) + 1
 
-        line_count += 1
         # print(line_count)
         if line_count == 9:
             print_statistics()
             line_count = 0
+        line_count += 1
 
     if line_count != 10:
         print_statistics()
