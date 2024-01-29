@@ -35,9 +35,6 @@ try:
         parts = list(filter(None, parts))
         # print(len(parts))
 
-        if len(parts) < 8:
-            continue
-
         if len(parts) != 10:
             continue
 
