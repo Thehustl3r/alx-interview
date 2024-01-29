@@ -13,7 +13,6 @@ def signal_handler(sig, frame):
 def print_statistics():
     """print statics"""
     print(f"File size: {total_size}")
-    print(f"File size: {total_size}")
 
     for code in sorted(status_code.keys()):
         print(f"{code}: {status_code[code]}")
@@ -47,7 +46,7 @@ try:
             print_statistics()
             line_count = 0
 
-    if line_count !=10:
+    if line_count != 10:
         print_statistics()
 
 except KeyboardInterrupt:
