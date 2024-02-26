@@ -6,11 +6,11 @@ const request = require("request")
 const STAR_WAR_API = "https://swapi-api.alx-tools.com/api/films/";
 
 
-const getMovieCharacters = (movieId)=>{
+const getMovieCharacters =  (movieId)=>{
     const url = `https://swapi.dev/api/films/${movieId}/`;
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         request(url, (error, response, body) => {
-            if (!error && response.statusCode == 200){
+            if (!error && response.statusCode == 200) {
                 const movie = JSON.parse(body);
                 resolve(movie.characters);
             }
@@ -24,6 +24,9 @@ const printMovieCharacters = async (movieId)=>{
         if (!Array.isArray(characters) ) {
             return;
         }
+        characters.forEach(element => {
+            console.log(element)
+        });
         characters.forEach(async (characterUrl) => {
             const character = await getCharacterName(characterUrl);
             if (character !== undefined && character !== ''){
@@ -37,8 +40,8 @@ const printMovieCharacters = async (movieId)=>{
 
 const getCharacterName = (characterUrl)=>{
     return new Promise((resolve, reject) => {
-        request(characterUrl, (error, response, body)=>{
-            if (!error && response.statusCode == 200){
+        request(characterUrl, (error, response, body) => {
+            if (!error && response.statusCode == 200) {
                 const character = JSON.parse(body);
                 resolve(character.name);
             }
