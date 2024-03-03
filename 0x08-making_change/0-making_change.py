@@ -13,6 +13,8 @@ def makeChange(coins, total):
         Return:
             - the minimun coins, otherwise -1
     """
+    if total < 1:
+        return 0
     number = 0
     prev_total = total
     coins = sorted(coins, reverse=True)
