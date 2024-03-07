@@ -12,22 +12,17 @@ def island_perimeter(grid):
     Return:
         - return the perimeter if exist otherwise zero
     """
-    length = 0
-    width = 0
+    perimeter = 0
+    rows, cols = len(grid), len(grid[0])
 
-    for i in range(1, (len(grid) - 1)):
-        for j in range(1, (len(grid[i]) - 1)):
+    for i in range(rows):
+        for j in range(cols):
             if grid[i][j] == 1:
-                for a in range(i, (len(grid) - 1)):
-                    if grid[a][j] == 1:
-                        length += 1
-                        if grid[a][j + 1] == 0:
-                            for t in range(j, (len(grid[j]) - 1)):
-                                if grid[j][t] == 1:
-                                    width += 1
-                            # break
-        if length != 0 or width != 0:
-            width += 1
-            break
-    perimeter = (length + width) * 2
+                perimeter += 4  # Start with the assumption of full perimeter
+                # Check adjacent cells
+                if i > 0 and grid[i - 1][j] == 1:
+                    perimeter -= 2  # Subtract 2 for each adjacent land
+                if j > 0 and grid[i][j - 1] == 1:
+                    perimeter -= 2  # Subtract 2 for each adjacent land
+
     return perimeter
